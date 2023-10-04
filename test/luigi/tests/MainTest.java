@@ -28,13 +28,13 @@ class MainTest {
     @Test
     public void test_sum() {
         System.out.println("\nRunning test_sum\n");
-        Assertions.assertEquals(2, t.sum(1));
+        assertEquals(2, t.sum(1));
     }
 
     @Test
     public void test_substract() {
         System.out.println("\nRunning test_substract\n");
-        Assertions.assertEquals(0, t.subtract(1));
+        assertEquals(0, t.subtract(1));
     }
 
     @Test
@@ -63,7 +63,7 @@ class MainTest {
     public void test_IntegerDivision(int dividend, int divisor, int expectedResult) {
         System.out.println("\nRunning test_IntegerDivision\n");
 
-        Assertions.assertEquals(expectedResult, t.integerDivision(dividend, divisor));
+        assertEquals(expectedResult, t.integerDivision(dividend, divisor));
     }
 
     @ParameterizedTest

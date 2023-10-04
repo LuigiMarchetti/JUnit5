@@ -1,6 +1,9 @@
 package com.service;
 
+import com.data.UsersRepository;
+import com.exception.UserServiceException;
 import com.io.UsersDatabase;
+import com.model.User;
 
 import java.util.Map;
 import java.util.UUID;
@@ -8,6 +11,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     UsersDatabase usersDatabase;
+    UsersRepository usersRepository;
 
     public UserServiceImpl(UsersDatabase usersDatabase) {
         this.usersDatabase = usersDatabase;
@@ -19,6 +23,34 @@ public class UserServiceImpl implements UserService {
         userDetails.put("userId", userId);
         usersDatabase.save(userId, userDetails);
         return userId;
+    }
+
+    public User createUser(String firstName,
+                           String lastName,
+                           String email,
+                           String password,
+                           String repeatPassword) {
+        if(firstName == null || firstName.trim().length() == 0) {
+            throw new IllegalArgumentException("User's first name is empty");
+        }
+
+        if(lastName == null || lastName.trim().length() == 0) {
+            throw new IllegalArgumentException("User's last name is empty");
+        }
+        User user = new User(firstName, lastName, email, UUID.randomUUID().toString());
+
+        boolean isUserCreated;
+
+        try {
+            isUserCreated = usersRepository.save(user);
+        } catch (RuntimeException ex) {
+            throw new UserServiceException(ex.getMessage());
+        }
+
+        if(!isUserCreated) throw new UserServiceException("Could not create user");
+
+
+        return user;
     }
 
     @Override
